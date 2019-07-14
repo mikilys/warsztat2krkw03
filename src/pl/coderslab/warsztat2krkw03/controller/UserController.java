@@ -2,6 +2,9 @@ package pl.coderslab.warsztat2krkw03.controller;
 
 //program narzedziowy
 
+import pl.coderslab.warsztat2krkw03.dao.UserDao;
+import pl.coderslab.warsztat2krkw03.model.User;
+
 import java.util.Scanner;
 
 public class UserController {
@@ -33,7 +36,21 @@ public class UserController {
     }
 
     private static void addUser() {
-        System.out.println("Dodano Usera / User added");
+        Scanner s = new Scanner(System.in);
+
+        System.out.println("Dodaj użytkownika / Add user");
+
+        System.out.println("Dodaj nazwę / Enter name:");
+        final String username = s.nextLine();
+        System.out.println("Dodaj email / Enter email:");
+        final String email = s.nextLine();
+        System.out.println("Podaj hasło /Enter password:");
+        final String password = s.nextLine();
+
+        User u = new User(username, email, password);
+        UserDao.create(u);
+
+        System.out.println("Dodano Usera / User added; id=" + u.getId());
     }
 
     private static void editUser() {
