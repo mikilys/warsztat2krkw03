@@ -67,9 +67,18 @@ public class User {
         return BCrypt.checkpw(password, getPassword());
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
+
     //cialo klasy
     public static void main(String[] args) {
-
 
     }
 

@@ -4,19 +4,20 @@ import pl.coderslab.warsztat2krkw03.db.Db;
 import pl.coderslab.warsztat2krkw03.model.User;
 
 import java.sql.*;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class UserDao {
 
-    private static final String CREATE_USER_QUERY = "INSERT INTO users(username, email, password) VALUES (?, ?, ?)";
+    private static final String CREATE_USER_QUERY = "INSERT INTO user(username, email, password) VALUES (?, ?, ?)";
 
-    private static final String READ_USER_QUERY = "SELECT * FROM users where id = ?";
+    private static final String READ_USER_QUERY = "SELECT * FROM user where id = ?";
 
-    private static final String UPDATE_USER_QUERY = "UPDATE users SET username = ?, email = ?, password = ? WHERE id = ?";
+    private static final String UPDATE_USER_QUERY = "UPDATE user SET username = ?, email = ?, password = ? WHERE id = ?";
 
-    private static final String DELETE_USER_QUERY = "DELETE FROM users WHERE id = ?";
+    private static final String DELETE_USER_QUERY = "DELETE FROM user WHERE id = ?";
 
-    private static final String FIND_ALL_USER_QUERY = "SELECT * FROM users";
+    private static final String FIND_ALL_USER_QUERY = "SELECT * FROM user";
 
 
     //zapisanie nowego usera
@@ -97,12 +98,41 @@ public class UserDao {
         try (Connection con = DriverManager.getConnection(Db.URL, Db.USER, Db.PASSWORD)) {
             final PreparedStatement ps = con.prepareStatement(DELETE_USER_QUERY);
 
-        ps.setInt(1, userId);
-        ps.executeUpdate();
+            ps.setInt(1, userId);
+            ps.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    //szukanie wszystkich
+    public static User[] findAll() {
+
+        try (Connection con = DriverManager.getConnection(Db.URL, Db.USER, Db.PASSWORD)) {
+
+            User[] users = new User[0];
+            PreparedStatement ps = con.prepareStatement(FIND_ALL_USER_QUERY);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                User user = new User();
+                user.setId((rs.getInt("id")));
+                user.setUsername(rs.getString("username"));
+                user.setEmail(rs.getString("email"));
+                user.setPassword(rs.getString("password"));
+                users = addToArray(user, users);
+            }
+            return users;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private static User[] addToArray (User u, User[] users) {
+        User[] tmpUsers = Arrays.copyOf(users, users.length+1);
+        tmpUsers[users.length] = u;
+        return tmpUsers;
     }
 
 }

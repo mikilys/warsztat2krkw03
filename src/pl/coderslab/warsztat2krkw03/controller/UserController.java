@@ -5,6 +5,7 @@ package pl.coderslab.warsztat2krkw03.controller;
 import pl.coderslab.warsztat2krkw03.dao.UserDao;
 import pl.coderslab.warsztat2krkw03.model.User;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class UserController {
@@ -26,6 +27,9 @@ public class UserController {
             }
             if(option.equals("3")) {
                 deleteUser();
+            }
+            if(option.equals("4")) {
+                findAll();
             }
             if(option.equals("0")) {
                 break;
@@ -94,12 +98,22 @@ public class UserController {
         System.out.println("Usunięto Usera / User deleted");
     }
 
+    private static void findAll() {
+        System.out.println("Wszyscy userzy / All users");
+
+        User[] users = UserDao.findAll();
+        for (int i=0; i<users.length; i++) {
+            System.out.println(users[i]);
+        }
+    }
+
     private static void displayMenu() {
         System.out.println();
         System.out.println("Wybierz opcje i naciśnij 'enter' / Choose option nad press 'enter'");
         System.out.println("Opcje: 1 - dadaj / add");
         System.out.println("Opcje: 2 - odszukaj / find");
         System.out.println("Opcje: 3 - usuń / delete");
+        System.out.println("Opcje: 4 - wyświetl wszystko / show all");
         System.out.println("Opcje: 0 - wyjście / quit");
         System.out.println();
     }
