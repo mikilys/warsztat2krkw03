@@ -45,7 +45,7 @@ public class ExerciseController {
 
         System.out.println("Dodaj tytuł / Enter title:");
         final String title = s.nextLine();
-        System.out.println("Dodaj email / Enter email:");
+        System.out.println("Dodaj opis / Enter description:");
         final String description = s.nextLine();
 
         Exercise e = new Exercise(title, description);
